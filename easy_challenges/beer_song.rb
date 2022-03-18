@@ -3,66 +3,60 @@
 Write a program that can generate the lyrics of the 99 Bottles of Beer song. See the test suite for the entire song.
 
 -----------------------------INPUT----------------------------------
-Single integer (number of verses)
+Single integer indicating which verse to sing
+(optional) integer indicating a range to sing between
 
 ----------------------------OUTPUT----------------------------------
-n (input number) verses of the beer song
+The 99 Bottls of Beer song, correctly formatted as a string
 
 -----------------------------RULES----------------------------------
 Explicit:
 
 Implicit:
-- With one bottle of beer:
-    - The verse changes to bottle instead of bottles
-    - Instead of saying 0 it says "no more"
-    - The last version says "No more bottles of beer" ; "Got to the store and buy some more, 99 bottles of beer on the wall."
-
-- There are two methods: #verse and #verses
-    - #verse does on single verse of the song
-    - #verses can take a second optional argument that will only do the verses of the input number to the second argument
-  
+- Whenever 1 bottle of beer is one the wall, remove the 's'
+- When there are no more bottls of beer on the wall, 'Go to the store and buy some more, 99 bottles of beer on the wall.''
+- The #lyrics method does all 100 verses
+- All methods are class methods
+- Inputs 
 
 -------------------------DATA STRUCTURES----------------------------
-Strings
+It may be handy to use an array
 
 ----------------------------ALGORITHM-------------------------------
-class BeerSong
+BeerSong class
+  - #verse
+      - Begin song with given number of beers on the wall, sing one verse
+  - #verses
+      - Create empty string
+      - 
+  - #lyrics
+      - Output entire song (100 verses)
 
-#verse
-  - Outputs a single verse of the beer song with the iteration of the version interpolated into the text
-  - Has a special version for the second-to-last verse
-  - Has a special version for the last verse
-
-#verses
-  - Runs the #verse method the number of times that the argument specifies down to a specified verse
 =end
 
 class BeerSong
-  def self.verse(n)
-    case n
-    when 0
-      "No more bottles of beer on the wall, no more bottles of beer.\n" \
+  def self.verse(bottles)
+    if bottles == 2
+      "#{bottles} bottles of beer on the wall, #{bottles} bottles of beer.\n" \
+      "Take one down and pass it around, 1 bottle of beer on the wall.\n" \
+    elsif bottles == 1
+      "#{bottles} bottle of beer on the wall, #{bottles} bottle of beer.\n" \
+      "Take it down and pass it around, no more bottles of beer on the wall.\n" \
+    elsif bottles == 0
+       "No more bottles of beer on the wall, no more bottles of beer.\n" \
       "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
-    when 1
-      "1 bottle of beer on the wall, 1 bottle of beer.\n" \
-      "Take it down and pass it around, no more bottles of beer on the wall.\n"
-    when 2
-      "2 bottles of beer on the wall, 2 bottles of beer.\n" \
-      "Take one down and pass it around, 1 bottle of beer on the wall.\n"
     else
-      "#{n} bottles of beer on the wall, #{n} bottles of beer.\n" \
-      "Take one down and pass it around, #{n-1} bottles of beer on the wall.\n"
+      "#{bottles} bottles of beer on the wall, #{bottles} bottles of beer.\n" \
+      "Take one down and pass it around, #{bottles - 1} bottles of beer on the wall.\n" \
     end
   end
   
-  def self.verses(start, stop=0)
-    start.downto(stop).with_object([]) do |n, verse_arr|
-      verse_arr << verse(n)
-    end.join("\n")
+  def self.verses(start, stop)
+    start.downto(stop).with_object([]) { |n, song_str| song_str << verse(n) }.join("\n")
   end
   
   def self.lyrics
-    verses(99)
+    verses(99, 0)
   end
 end
 
@@ -71,4 +65,4 @@ end
 # puts BeerSong.verse(2)
 # puts BeerSong.verse(1)
 # puts BeerSong.verse(0)
-# puts BeerSong.verses(99, 98)
+# puts BeerSong.verses(50, 0)

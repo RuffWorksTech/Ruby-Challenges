@@ -18,7 +18,7 @@ Outputs the hammering distance (differences between the two strings)
 
 -----------------------------RULES----------------------------------
 Explicit:
-- Computer the hammering distance over the shorter array only
+- Compute the hammering distance over the shorter array only
 
 Implicit:
 
@@ -28,7 +28,8 @@ Arrays
 ----------------------------ALGORITHM-------------------------------
 Zip up two arrays into one nested array
 Create sub-array of arrays with two elements each
-Iterate through arrays
+Iterate through array
+    - Break if any element is `nil`
     - If they are the same, skip the iteration
     - Else, increment a counter += 1
 Return counter
@@ -36,17 +37,18 @@ Return counter
 =end
 
 class DNA
-  attr_reader :strand
-  
-  def initialize(strand)
-    @strand = strand.chars
-  end
-  
-  def hamming_distance(other_strand)
-    zipped = strand.zip(other_strand.chars)
-    
-    zipped.select { |pair| pair.last != nil }.select { |pair|  pair.uniq.size == 2 }.size
-  end
+ def initialize(strand)
+   @strand = strand
+ end
+
+ def hamming_distance(strand2)
+   counter = 0
+   @strand.chars.zip(strand2.chars).each do |group|
+     break if group.any?(nil)
+     counter += 1 if group.uniq.size == 2
+   end
+   counter
+ end
 end
 
 # dna1 = DNA.new('ACT')

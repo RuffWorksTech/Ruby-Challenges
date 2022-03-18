@@ -14,52 +14,49 @@ Likewise, here are the 4-digit series:
 Finally, if you ask for a 6-digit series from a 5-digit string, you should throw an error.
 
 -----------------------------INPUT----------------------------------
-New Series objects instantiate with string of integers
+Single string of numbers
+#slices method accepts single integer of the n-digit series requested
 
 ----------------------------OUTPUT----------------------------------
-Nested array of the requested series of consecutive numbers
+Nested array of all n-digit series possible with the given string
 
 -----------------------------RULES----------------------------------
 Explicit:
+- If a series larger than the digit string is requested, throw an ArgumentError
 
 Implicit:
-- Series never exceed the string length
-- Requests for slices larger than the string length raise an ArgumentError
+- Requested series sizes will all be > 1
+- All input strings will consist only of digits 0-9
+
 
 -------------------------DATA STRUCTURES----------------------------
-Array
+Arrays, baby
 
 ----------------------------ALGORITHM-------------------------------
 class Series
 #initialize
-- instantiates with given numerical string
-
+    - Save string as instance variable
 #slices
-- raise ArgumentError if requested slice is larger than given string
-- Split numerical string into characters, convert to integers, iterate with new object
-  - Break if the current element == string size - slice
-  - Place slice into new array
-- Return new array
+    - Raise ArgumentError if requested slice is larger than string length
+    - Create emtpy result array
+    - Subtract series slice size from string size
+    - Iterate the difference + 1
+        - Start from the first element and take a slice of the string
+        - Shovel the slice into the result array
+    - Return result array
 
 =end
-require 'pry'
+
 class Series
-  attr_reader :digit_str
+  attr_accessor :digit_str
   
   def initialize(digit_str)
     @digit_str = digit_str
   end
   
-  def slices(n)
-    raise ArgumentError if n > digit_str.length
-    digit_arr = digit_str.chars.map(&:to_i)
-
-    slices_arr = []
-    digit_arr.each_with_index do |num, idx|
-      break if idx > digit_arr.size - n
-      slices_arr << digit_arr[idx, n]
-    end
-    slices_arr
+  def slices(slice_size)
+    raise ArgumentError.new if slice_size > digit_str.length
+    digit_str.chars.map(&:to_i).each_cons(slice_size).to_a
   end
 end
 

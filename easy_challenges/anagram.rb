@@ -5,47 +5,42 @@ Write a program that takes a word and a list of possible anagrams and selects th
 For example, given the word "listen" and a list of candidates like "enlists", "google", "inlets", and "banana", the program should return a list containing "inlets". Please read the test suite for the exact rules of anagrams.
 
 -----------------------------INPUT----------------------------------
-- Single string consisting of a single word
-- A list of candidates for an anagram
+Single-word string and a list (array) of candidates
 
 ----------------------------OUTPUT----------------------------------
-- A list of all candidates that are anagrams of the input word
+Array of strings contaning all candidates that are anagrams
 
 -----------------------------RULES----------------------------------
 Explicit:
 
 Implicit:
-- Return an array
-- If no candidates are anagrams, return an empty array
-- Identical words are not anagrams
-- Anagrams are case insensitive
-- Duplicates are removed
+- All inputs and outputs are lower case
+- Words must be the same length
+- Words must have the exact same letters
+- Letters cannot be reused
+- Return an empty array if no anagrams are round
 
 -------------------------DATA STRUCTURES----------------------------
-Arrays
+Strings & Arrays
 
 ----------------------------ALGORITHM-------------------------------
-Class called Anagram
-    - Initialize new Anagram object using a single string
-#match method that detects anagrams and returns an array
-    - Skip if word in array is same as anagram string
-    - sort word, include in list if it is equal to anagram string sorted
+Anagram class
+- Contstructor that takes pattern word as an argument
+- `match` method that takes an array of words as an argument
+    - 
 
 =end
 
 class Anagram
-  attr_reader :word
-  
-  def initialize(word)
-    @word = word.downcase
+  def initialize(pattern)
+    @pattern = pattern.downcase
   end
-
-  def match(list)
-    list.select do |candidate|
-      test_word = candidate.downcase
-      next if test_word == word
-      test_word.chars.sort.join == word.chars.sort.join
-    end.uniq
+  
+  def match(candidate_arr)
+    candidate_arr.each_with_object([]) do |word, anagrams|
+      next if word.downcase == @pattern
+      anagrams << word if word.downcase.chars.sort == @pattern.chars.sort
+    end
   end
 end
 

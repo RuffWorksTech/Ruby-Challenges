@@ -24,30 +24,35 @@ Sum the values of all the tiles used in each word. For instance, lets consider t
 1 point for E
 
 -----------------------------INPUT----------------------------------
-Single string consisting of a single word
-
+Single-word string
 ----------------------------OUTPUT----------------------------------
-The Scrabble score for the input word
+Scrabble score as an integer
 
 -----------------------------RULES----------------------------------
 Explicit:
 
 Implicit:
+- Words are case insensitive
+- Spaces score 0
+- `nil` scores 0
 
 -------------------------DATA STRUCTURES----------------------------
-String -> Array
+Strings & Arrays
 
 ----------------------------ALGORITHM-------------------------------
-Class called Scrabble
-  - Instantiate new objects with a string passed in
-#score method
-  - Score word according to score chart
-      - Iterate through LETTER_VALUES
-          - If letter is found in value array, add point to total
-  - Return score
-=end
+Scrabble class
+LETTER_VALUES hash with scores
 
-require 'pry'
+Constructor method saves input string as uppercase
+
+`score` method
+    - Initialize score integer variable
+    - Split string into characters, iterate through
+        - For each letter, add score to score variable
+    - Return score variable
+    
+
+=end
 
 class Scrabble
   attr_reader :word
@@ -62,21 +67,21 @@ class Scrabble
                   }
 
   def initialize(word)
-    @word = word ? word : ''
+    @word = word
   end
 
   def score
-    points = 0
-    word.each_char do |char|
+    pts = 0
+    return pts unless @word.is_a? String
+    @word.upcase.chars.each do |letter|
       LETTER_VALUES.each do |k, v|
-        points += k if v.include?(char.upcase)
+        pts += k if v.include?(letter)
       end
     end
-    
-    points
+    pts
   end
-
-  def self.score(str)
-    Scrabble.new(str).score
+  
+  def self.score(word)
+    Scrabble.new(word).score
   end
 end

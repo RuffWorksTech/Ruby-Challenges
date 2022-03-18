@@ -24,12 +24,21 @@ Single string: 'abundant', 'perfect', or 'deficient'
 Explicit:
 
 Implicit:
+- If number is negative, throw error
 
 -------------------------DATA STRUCTURES----------------------------
 
 
 ----------------------------ALGORITHM-------------------------------
-
+PerfectNumber class
+Contstructor method takes single integer input
+Class `classify` method
+    - Iterates up to number
+        - If n is a divisor of number, add it to array
+    - Sum array
+    - If sum == number, return 'perfect'
+    - If sum > numberc, return 'abundant'
+    - Else return 'deficient'
 
 =end
 
@@ -37,23 +46,20 @@ require 'pry'
 
 class PerfectNumber
   def self.classify(num)
-    raise(StandardError) if num < 0
-    # binding.pry
-    sum = sum_divisors(num)
-    case 
-    when sum == num then 'perfect'
-    when sum > num then 'abundant'
-    when sum < num then 'deficient'
+    raise StandardError.new if num < 1
+    total = sum_divisors(num)
+
+    if total == num then'perfect'
+    elsif total > num then 'abundant'
+    else 'deficient'
     end
   end
-  
+
   class << self
     private
-    
+
     def sum_divisors(num)
-      1.upto(num / 2).with_object([]) do |n, arr|
-        arr << n if num % n == 0
-      end.sum
+      (1..num/2).select { |n| num % n == 0 }.sum
     end
   end
 end

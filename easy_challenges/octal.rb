@@ -8,10 +8,10 @@ About Octal (Base-8)
 
 Decimal is a base-10 system. A number 233 in base 10 notation can be understood as a linear combination of powers of 10:
 
-The rightmost digit gets multiplied by 100 = 1
-The next digit gets multiplied by 101 = 10
-The digit after that gets multiplied by 102 = 100
-The digit after that gets multiplied by 103 = 1000
+The rightmost digit gets multiplied by  10^0 = 1
+The next digit gets multiplied by       10^1 = 10
+The digit after that gets multiplied by 10^2 = 100
+The digit after that gets multiplied by 10^3 = 1000
 ...
 The n*th* digit gets multiplied by 10n-1.
 All of these values are then summed.
@@ -30,57 +30,54 @@ Octal numbers are similar, but the use powers of 8 instead of powers of 10. Thus
 = 155
 
 -----------------------------INPUT----------------------------------
-Single integer as a string representation
+Single string
 
 ----------------------------OUTPUT----------------------------------
-The decimal conversion of the input integer
+Single integer
 
 -----------------------------RULES----------------------------------
 Explicit:
 
 Implicit:
-- If result < 0, return 0
-- If input is anything other than an integer, return 0
+- If the input is not an integer, return 0
+- If any number is 8 or 9, return 0
 
 -------------------------DATA STRUCTURES----------------------------
-Array for iteration
+String -> Integer -> Array -> Integer
 
 ----------------------------ALGORITHM-------------------------------
-Octal class that takes a string as a new object
-#to_decimal method
-- Return 0 if any character is not a number
-- Return 0 if any character is 8 or 9
+Octal class
+Constructor method takes in string
+`to_decimal` method
+    - Return 0 if string is invalid
+    - Convert string to integers then digits, iterate through
+        - Number should be reversed, so multiply each number by 8^index
+    - Return sum
 
-Set string as array, reverse
-Iterate as many times as the array is long (map)
-  - Multiply the digit by 8^n
-  - Sum the array
-Return the sum
-
-
+'invalid?' method
+    - If string contains any characters other than 0-7 -> false
 =end
 
 class Octal
-  attr_reader :num
-  
   def initialize(num)
     @num = num
   end
-
+  
   def to_decimal
-    return 0 unless valid?(num)
-
-    num.to_i.digits.each_with_index.with_object([]) do |(n, idx), arr|
-      arr << n * (8 ** idx)
-    end.sum
+    return 0 if invalid?
+    decimal = 0
+    @num.to_i.digits.each_with_index do |n, idx|
+      decimal += n * 8**idx
+    end
+    decimal
   end
   
-  def valid?(num)
-    num.downcase.match(/[a-z,89]/)
+  def invalid?
+    @num.chars.any?(/[^0-7]/)
   end
 end
 
-# p Octal.new('abc1z').to_decimal == 0
-# p Octal.new('6789').to_decimal == 0
-# p Octal.new('011').to_decimal == 9
-# p Octal.new('130').to_decimal == 88
+# p Octal.new('abc1z').to_decimal #== 0
+# p Octal.new('6789').to_decimal #== 0
+# p Octal.new('011').to_decimal #== 9
+# p Octal.new('130').to_decimal #== 88

@@ -17,16 +17,16 @@ Explicit:
 - Do not worry about converting numbers larger than 3000
 
 Implicit:
+- Output string is capitalized
 
 -------------------------DATA STRUCTURES----------------------------
-Input -> Array
-Checks hash that contains the links between numbers and their equivalent Roman numerals
+Split input number into array
 
 ----------------------------ALGORITHM-------------------------------
-Initialize empty numeral string
-Iterate through CONVERSTION_PAIRS
-  - If number fits (division > 0), add the roman numeral to the string that many times
-  - Assign remainder to variable that will be iterated next iteration
+Create empty string to return
+Iterate through CONVERSION_PAIRS
+  - Divide the input number by the key, use the remainder to add that many Roman numerals to the string
+Return the string
 
 =end
 
@@ -39,58 +39,42 @@ class RomanNumeral
                        1 => 'I'
                      }
 
-  def initialize(num)
-    @num = num
+  def initialize(n)
+    @n = n
   end
-
+  
   def to_roman
     numeral = ''
-    divider = 10000
-    
-    3.times do |n|
-      divider /= 10
-      result, remainder = @num.divmod(divider)
-      next if result == 0
-      p [result, remainder]
+    n_to_convert = @n
+    CONVERSION_PAIRS.each do |num, numerals|
+      next if num > n_to_convert
+      numeral << numerals * (n_to_convert / num)
+      n_to_convert %= num
     end
-    
     numeral
   end
 end
 
-n = RomanNumeral.new(1)
-p n.to_roman #== 'I'
+# n = RomanNumeral.new(1)
+# p n.to_roman == 'I'
 
-n = RomanNumeral.new(2)
-p n.to_roman #== 'II'
+# n = RomanNumeral.new(2)
+# p n.to_roman == 'II'
 
-n = RomanNumeral.new(4)
-p n.to_roman #== 'IV'
+# n = RomanNumeral.new(4)
+# p n.to_roman == 'IV'
 
-n = RomanNumeral.new(9)
-p n.to_roman #== 'IX'
+# n = RomanNumeral.new(9)
+# p n.to_roman == 'IX'
 
-n = RomanNumeral.new(59)
-p n.to_roman #== 'LIX'
+# n = RomanNumeral.new(59)
+# p n.to_roman == 'LIX'
 
-n = RomanNumeral.new(93)
-p n.to_roman #== 'XCIII'
+# n = RomanNumeral.new(93)
+# p n.to_roman == 'XCIII'
 
-n = RomanNumeral.new(1024)
-p n.to_roman #== 'MXXIV'
+# n = RomanNumeral.new(1024)
+# p n.to_roman == 'MXXIV'
 
-n = RomanNumeral.new(3000)
-p n.to_roman #== 'MMM'
-
-# Original to_roman
-  # def to_roman
-  #   numeral = ''
-  #   current_num = n
-  #   CONVERSION_PAIRS.each do |k, v|
-  #     result, remainder = current_num.divmod(k)
-
-  #     numeral << v * result if result > 0
-  #     current_num = remainder
-  #   end
-  #   numeral
-  # end
+# n = RomanNumeral.new(3000)
+# p n.to_roman == 'MMM'
