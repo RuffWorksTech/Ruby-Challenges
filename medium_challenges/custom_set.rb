@@ -44,6 +44,8 @@ class CustomSet
 require 'pry'
 
 class CustomSet
+  attr_accessor :set
+  
   def initialize(arr=[])
     @set = arr.uniq
   end
@@ -57,12 +59,12 @@ class CustomSet
   end
 
   def subset?(other_arr)
-    set == set.select { |n| other_arr.contains?(n) }
+    set == set.select { |n| other_arr.set.include?(n) }
   end
 
   def disjoint?(other_set)
     return true if set.empty? || other_set.empty?
-    set.select { |n| other_set.contains?(n) }.empty?
+    set.select { |n| other_set.set.include?(n) }.empty?
   end
 
   def eql?(other_set)
@@ -70,8 +72,8 @@ class CustomSet
   end
 
   def add(new_element)
-    set << new_element if !contains?(new_element)
-    self
+    set << new_element if !set.include?(new_element)
+    CustomSet.new(set)
   end
 
   def ==(other_set)
@@ -79,21 +81,27 @@ class CustomSet
   end
   
   def intersection(other_set)
-    matching_elements = set.select { |n| other_set.contains?(n) }
+    return CustomSet.new if set.empty? || other_set.empty?
+    matching_elements = set.select { |n| other_set.set.include?(n) }
     CustomSet.new(matching_elements)
   end
 
   def difference(other_set)
-    matching_elements = set.select { |n| !other_set.contains?(n) }
-    CustomSet.new(matching_elements)
+    if set.empty?
+      return self
+    elsif other_set.empty?
+      return self
+    else
+      matching_elements = set.select { |n| other_set.set.include?(n) }
+      @set -= matching_elements
+      CustomSet.new(set)
+    end
   end
   
   def union(other_set)
     sum = set + other_set.set
     CustomSet.new(sum.uniq.sort)
   end
-  
-  protected
-  
-  attr_accessor :set
 end
+
+p CustomSet.new == CustomSet.new

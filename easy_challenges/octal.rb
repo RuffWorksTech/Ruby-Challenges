@@ -1,3 +1,5 @@
+# rubocop:disable Layout/LineLength
+
 =begin
 ----------------------------PROMPT----------------------------------
 Implement octal to decimal conversion. Given an octal input string, your program should produce a decimal output. Treat invalid input as octal 0.
@@ -58,20 +60,23 @@ Constructor method takes in string
     - If string contains any characters other than 0-7 -> false
 =end
 
+# rubocop:enable Layout/LineLength
+
 class Octal
   def initialize(num)
     @num = num
   end
-  
+
   def to_decimal
     return 0 if invalid?
+
     decimal = 0
     @num.to_i.digits.each_with_index do |n, idx|
       decimal += n * 8**idx
     end
     decimal
   end
-  
+
   def invalid?
     @num.chars.any?(/[^0-7]/)
   end

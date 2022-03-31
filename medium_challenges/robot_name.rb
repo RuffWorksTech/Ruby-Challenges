@@ -49,7 +49,6 @@ class Robot
 =end
 
 class Robot
-  attr_reader :name
   @@robot_names = []
 
   def name
@@ -74,6 +73,7 @@ class Robot
   end
 end
 
+p Robot.new == Robot.new
 # a = Robot.new
 # p a.name
 # p a.reset

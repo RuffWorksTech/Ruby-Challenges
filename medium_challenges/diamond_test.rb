@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 Minitest::Reporters.use!
 
-require_relative 'diamond'
+require_relative 'diamond2'
 
 class DiamondTest < Minitest::Test
   def test_letter_a

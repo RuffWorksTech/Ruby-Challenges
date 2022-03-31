@@ -42,8 +42,6 @@ Class `classify` method
 
 =end
 
-require 'pry'
-
 class PerfectNumber
   def self.classify(num)
     raise StandardError.new if num < 1

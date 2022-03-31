@@ -123,6 +123,8 @@ class Meetup
   end
 end
 
+p Meetup.new
+
 # p Meetup.new(2013, 3).day('Monday', 'first') == Date.civil(2013, 3, 4)
 # p Meetup.new(2013, 4).day('monday', 'first') == Date.civil(2013, 4, 1)
 # p Meetup.new(2013, 5).day('Tuesday', 'first') == Date.civil(2013, 5, 7)

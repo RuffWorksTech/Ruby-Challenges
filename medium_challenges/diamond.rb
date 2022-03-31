@@ -50,13 +50,12 @@ class Diamond
     
     diamond
   end
-  
-  
+
   def self.letter_array(letter)
     letters = ['A']
     spacer = 1
     ('B'.ord..letter.ord).each do |n|
-      letters << (n.chr + ' ' * spacer + n.chr)
+      letters << (n.chr + ' '*spacer + n.chr)
       spacer += 2
     end
     letters
@@ -65,6 +64,6 @@ end
 
 puts Diamond.make_diamond('A')
 puts Diamond.make_diamond('B')
+puts Diamond.make_diamond('C')
 puts Diamond.make_diamond('E')
-puts Diamond.make_diamond('G')
 puts Diamond.make_diamond('P')

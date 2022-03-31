@@ -1,3 +1,5 @@
+# rubocop:disable Layout/LineLength
+
 =begin
 ----------------------------PROMPT----------------------------------
 Write a program that takes a word and a list of possible anagrams and selects the correct sublist that contains the anagrams of the word.
@@ -27,7 +29,6 @@ Strings & Arrays
 Anagram class
 - Contstructor that takes pattern word as an argument
 - `match` method that takes an array of words as an argument
-    - 
 
 =end
 
@@ -35,10 +36,11 @@ class Anagram
   def initialize(pattern)
     @pattern = pattern.downcase
   end
-  
+
   def match(candidate_arr)
     candidate_arr.each_with_object([]) do |word, anagrams|
       next if word.downcase == @pattern
+
       anagrams << word if word.downcase.chars.sort == @pattern.chars.sort
     end
   end
@@ -55,3 +57,5 @@ end
 
 # detector = Anagram.new('allergy')
 # p detector.match(%w( gallery ballerina regally clergy largely leading)) #== %w(gallery largely regally)
+
+# rubocop:enable Layout/LineLength

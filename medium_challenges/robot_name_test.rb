@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 Minitest::Reporters.use!
 
-require_relative 'robot_name'
+require_relative 'robot_name2'
 
 class RobotTest < Minitest::Test
   DIFFERENT_ROBOT_NAME_SEED = 1234
